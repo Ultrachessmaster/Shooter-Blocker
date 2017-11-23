@@ -1,28 +1,40 @@
 import pygame as pg
 from pygame.locals import *
+import SexyImp
 
-pg.init()
+class Game():
+    def __init__(self):
+        pg.init()
 
-size = 1000, 600
-screen = pg.display.set_mode(size)
-clock = pg.time.Clock()
-ballimage = pg.image.load("player.png")
-sprite = pg.sprite.Sprite()
-sprite.image = ballimage
-sprite.rect = ballimage.get_rect()
-spritelist = pg.sprite.RenderPlain()
-spritelist.add(sprite)
-running = True
+        self.size = 1000, 600
+        self.screen = pg.display.set_mode(self.size)
+        self.clock = pg.time.Clock()
+        self.playerimage = pg.image.load("player.png")
+        self.imp = SexyImp.SexyImp(self.playerimage, (0, 0))
+        self.spritelist = pg.sprite.RenderPlain()
+        self.spritelist.add(self.imp)
+        self.running = True
+        self.MainLoop()
 
-while running:
-    clock.tick(60)
+    def Update(self):
+        for event in pg.event.get():
+            if event.type == QUIT:
+                self.running = False
 
-    for event in pg.event.get():
-        if event.type == QUIT:
-            running = False
+        self.spritelist.update()
 
-    spritelist.update()
-    sprite.rect = sprite.rect.move([1,1])
-    screen.fill((0,0,0))
-    spritelist.draw(screen)
-    pg.display.flip()
+    def Draw(self):
+        self.screen.fill((0, 0, 0))
+        self.spritelist.draw(self.screen)
+        pg.display.flip()
+
+    def PostUpdate(self):
+        for sprite in self.spritelist:
+            sprite.postupdate()
+    def MainLoop(self):
+        while self.running:
+            self.clock.tick(60)
+            self.Update()
+            self.PostUpdate()
+            self.Draw()
+g = Game()
