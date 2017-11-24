@@ -31,9 +31,11 @@ class Game():
     def PostUpdate(self):
         for sprite in self.spritelist:
             sprite.postupdate()
+
     def MainLoop(self):
         while self.running:
             self.clock.tick(60)
+
             self.Update()
             self.PostUpdate()
             self.Draw()

@@ -1,17 +1,23 @@
-from Engine.Entity import Entity
 import math
+
 import pygame as pg
+
+from Engine.Entity import Entity
+
 
 class SexyImp(Entity):
     def __init__(self, image, pos):
         Entity.__init__(self, image, pos)
-        self.xvel = 0
-        self.yvel = 0
-        self.speed = 5
-        self.circleradius = 0.01
+
+        self.circlespeed = 0.01
+        self.offsetspeed = 0.3
+        self.dir = 0, 1
     def update(self):
-        time = self.circleradius * pg.time.get_ticks()
-        self.xvel = math.sin(time)
-        self.yvel = math.cos(time)
-    def postupdate(self):
-        self.rect = self.rect.move([self.xvel * self.speed, self.yvel * self.speed])
+        #spin in cirle while moving in a direction
+        time = self.circlespeed * pg.time.get_ticks()
+        xvel = math.sin(time)
+        yvel = math.cos(time)
+        xdir, ydir = self.dir
+        xvel += self.offsetspeed * xdir
+        yvel += self.offsetspeed * ydir
+        self.vel = (xvel, yvel)
