@@ -40,3 +40,4 @@ class Game():
             self.PostUpdate()
             self.Draw()
 g = Game()
+#Kenton is a nigger

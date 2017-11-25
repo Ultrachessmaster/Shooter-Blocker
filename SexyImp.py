@@ -21,3 +21,4 @@ class SexyImp(Entity):
         xvel += self.offsetspeed * xdir
         yvel += self.offsetspeed * ydir
         self.vel = (xvel, yvel)
+
