@@ -27,5 +27,5 @@ class Entity(pg.sprite.Sprite):
     def set_angle(self, desiredangle):
         if desiredangle < 0:
             desiredangle = 360 + desiredangle
-        self.image = pg.transform.rotate(self.image, math.fabs(self.angle - desiredangle))
+        self.image = pg.transform.rotate(self.image, (desiredangle - self.angle))
         self.angle = desiredangle
