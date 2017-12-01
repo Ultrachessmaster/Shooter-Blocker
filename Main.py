@@ -2,6 +2,7 @@ import pygame as pg
 from pygame.locals import *
 
 from CircleShooter import CircleShooter
+from Engine.EntManager import EntManager
 from SpiralEnemy import SpiralEnemy
 from Engine import Constants
 import Player
@@ -18,8 +19,8 @@ class Game():
         player = Player.Player((0, 0))
         blocker = Blocker.Blocker((0, 0), player)
         circleshooter = CircleShooter((400, 0))
-        self.spritelist = pg.sprite.RenderPlain()
-        self.spritelist.add(spiral, circleshooter, player, blocker)
+        self.entmanager = EntManager()
+        self.entmanager.AddEntities(spiral, circleshooter, player, blocker)
 
         self.running = True
         self.timers = []
@@ -30,16 +31,10 @@ class Game():
             if event.type == QUIT:
                 self.running = False
 
-        self.spritelist.update()
+        self.entmanager.Update()
 
     def PostUpdate(self):
-        for sprite in self.spritelist:
-            sprite.postupdate()
-
-    def GetEntities(self):
-        for entity in self.spritelist:
-            self.spritelist.add(entity.get_entities())
-            entity.reset_entities()
+        self.entmanager.PostUpdate()
 
     def TimerUpdate(self, deltasecs):
         #search through timers, check if done and update, then remove any timers that are done
@@ -54,16 +49,12 @@ class Game():
             self.timers.remove(timer)
 
     def GetTimers(self):
-        for sprite in self.spritelist:
-            self.timers.extend(sprite.get_timers())
-            sprite.reset_timers()
+        self.timers.extend(self.entmanager.GetTimers())
 
     def Draw(self):
         self.screen.fill((255, 255, 255))
-        self.spritelist.draw(self.screen)
+        self.entmanager.Draw(self.screen)
         pg.display.flip()
-
-
 
     def MainLoop(self):
         while self.running:
@@ -72,7 +63,6 @@ class Game():
             self.Update()
             self.PostUpdate()
             self.TimerUpdate(float(millisecs) / float(1000))
-            self.GetEntities()
             self.GetTimers()
             self.Draw()
 g = Game()
