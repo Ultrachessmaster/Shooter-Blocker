@@ -17,8 +17,8 @@ class EnemySpawner(TimerPreset, EntitySpawnerPreset):
 
     def SpawnEnemies(self):
         self.iteration += 1
-        if self.iteration == 0:
-            self.FirstIteration()
+        #if self.iteration == 0:
+        self.FirstIteration()
         self.timers.append(Timer(5, self.SpawnEnemies))
 
     def FirstIteration(self):
