@@ -36,3 +36,14 @@ class Blocker(Entity):
             self.set_angle(270)
             self.rect.x = playerRectX
             self.rect.y = playerRectY + offsetY
+
+    def get_collisions(self):
+        return True
+
+    def collisions(self, colls):
+        delete = []
+        for coll in colls:
+            if coll.tag == "Bullet":
+                delete.append(coll)
+        for coll in delete:
+            coll.kill()

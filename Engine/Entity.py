@@ -12,6 +12,7 @@ class Entity(pg.sprite.Sprite):
         self.angle = 0
         self.timers = []
         self.entities = []
+        self.tag = ""
     def postupdate(self):
         #move entity on screen
         xvel, yvel = self.vel
@@ -29,3 +30,7 @@ class Entity(pg.sprite.Sprite):
             desiredangle = 360 + desiredangle
         self.image = pg.transform.rotate(self.image, (desiredangle - self.angle))
         self.angle = desiredangle
+    def get_collisions(self):
+        return False
+    def collisions(self, colls):
+        return

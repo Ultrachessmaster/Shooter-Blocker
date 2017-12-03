@@ -5,7 +5,7 @@ from Engine.Entity import Entity
 class Player(Entity):
     def __init__(self, pos):
         Entity.__init__(self, Constants.PlayerImage(), pos)
-        self.speed = 12
+        self.speed = 6
         self.xLeft = 0
         self.xRight = 1000
         self.yDown = 600
@@ -13,6 +13,7 @@ class Player(Entity):
         self.rect.x, self.rect.y = 500,300
         self.xVel = 0
         self.yVel = 0
+        self.tag = "Player"
 
     def update(self):
         pressed = pg.key.get_pressed()

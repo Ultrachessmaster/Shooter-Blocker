@@ -32,6 +32,7 @@ class Game():
                 self.running = False
 
         self.entmanager.Update()
+        self.entmanager.PhysicsUpdate()
 
     def PostUpdate(self):
         self.entmanager.PostUpdate()

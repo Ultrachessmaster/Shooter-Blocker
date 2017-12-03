@@ -7,3 +7,4 @@ class Bullet(Entity):
         Entity.__init__(self, Constants.BulletImage(), pos)
         self.vel = vel
         self.timers.append(Timer(10, self.kill))
+        self.tag = "Bullet"
