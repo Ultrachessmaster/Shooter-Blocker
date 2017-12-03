@@ -2,6 +2,7 @@ import pygame as pg
 from pygame.locals import *
 
 from CircleShooter import CircleShooter
+from EnemySpawner import EnemySpawner
 from Engine.EntManager import EntManager
 from SpiralEnemy import SpiralEnemy
 from Engine import Constants
@@ -18,10 +19,11 @@ class Game():
         spiral = SpiralEnemy((0, 0))
         player = Player.Player((0, 0))
         blocker = Blocker.Blocker((0, 0), player)
+        enemyspawner = EnemySpawner()
         circleshooter = CircleShooter((400, 0))
         self.entmanager = EntManager()
         self.entmanager.AddEntities(spiral, circleshooter, player, blocker)
-
+        self.entmanager.AddEntityHolder(enemyspawner)
         self.running = True
         self.timers = []
         self.MainLoop()

@@ -3,6 +3,7 @@ import pygame as pg
 class EntManager:
     def __init__(self):
         self._entities = pg.sprite.RenderPlain()
+        self._entholders = []
 
     def PostUpdate(self):
         for ent in self._entities:
@@ -14,13 +15,21 @@ class EntManager:
     def AddEntities(self, *entities):
         self._entities.add(entities)
 
+    def AddEntityHolder(self, entholder):
+        self._entholders.append(entholder)
+
     def Update(self):
         ents = []
         for ent in self._entities:
             ents.extend(ent.get_entities())
             ent.reset_entities()
+        for eh in self._entholders:
+            ents.extend(eh.get_entities())
+            ent.reset_entities()
         self._entities.add(ents)
         self._entities.update()
+        for eh in self._entholders:
+            eh.update()
 
     def PhysicsUpdate(self):
         for ent in self._entities:
@@ -40,4 +49,7 @@ class EntManager:
         for ent in self._entities:
             timers.extend(ent.get_timers())
             ent.reset_timers()
+        for eh in self._entholders:
+            timers.extend(eh.get_timers())
+            eh.reset_timers()
         return timers
