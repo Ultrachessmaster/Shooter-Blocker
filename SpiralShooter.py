@@ -7,7 +7,7 @@ from Engine import Constants
 from Engine.Entity import Entity
 from Engine.Timer import Timer
 
-class SpiralEnemy(Enemy):
+class SpiralShooter(Enemy):
     def __init__(self, pos):
         Enemy.__init__(self, Constants.PlayerImage(), pos)
         self.circlespeed = 0.01

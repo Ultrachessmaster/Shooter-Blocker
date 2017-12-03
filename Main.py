@@ -4,7 +4,7 @@ from pygame.locals import *
 from CircleShooter import CircleShooter
 from EnemySpawner import EnemySpawner
 from Engine.EntManager import EntManager
-from SpiralEnemy import SpiralEnemy
+from SpiralShooter import SpiralShooter
 from Engine import Constants
 import Player
 import Blocker
@@ -16,13 +16,11 @@ class Game():
 
         self.screen = pg.display.set_mode(Constants.ScreenSize())
         self.clock = pg.time.Clock()
-        spiral = SpiralEnemy((0, 0))
         player = Player.Player((0, 0))
         blocker = Blocker.Blocker((0, 0), player)
         enemyspawner = EnemySpawner()
-        circleshooter = CircleShooter((400, 0))
         self.entmanager = EntManager()
-        self.entmanager.AddEntities(spiral, circleshooter, player, blocker)
+        self.entmanager.AddEntities(player, blocker)
         self.entmanager.AddEntityHolder(enemyspawner)
         self.running = True
         self.timers = []
