@@ -14,6 +14,8 @@ class Player(Entity):
         self.xVel = 0
         self.yVel = 0
         self.tag = "Player"
+        self.get_collisions = True
+        self.health = 5
 
     def update(self):
         pressed = pg.key.get_pressed()
@@ -62,8 +64,5 @@ class Player(Entity):
         val = [self.rect.x, self.rect.y]
         return val
 
-    #def collision(self):
-
-
-
-
+    def collisions(self, colls):
+        return

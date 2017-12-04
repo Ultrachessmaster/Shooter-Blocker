@@ -33,7 +33,7 @@ class EntManager:
 
     def PhysicsUpdate(self):
         for ent in self._entities:
-            if ent.get_collisions():
+            if ent.get_collisions:
                 collidingents = []
                 for colent in self._entities:
                     if colent.rect.colliderect(ent.rect):

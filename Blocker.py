@@ -8,6 +8,7 @@ class Blocker(Entity):
         Entity.__init__(self, Constants.BlockerImage(), pos)
         self.rect.x, self.rect.y = 500,270
         self.player = player
+        self.get_collisions = True
 
     def update(self):
         playerRect = self.player.getRect()
@@ -36,9 +37,6 @@ class Blocker(Entity):
             self.set_angle(270)
             self.rect.x = playerRectX
             self.rect.y = playerRectY + offsetY
-
-    def get_collisions(self):
-        return True
 
     def collisions(self, colls):
         delete = []
