@@ -11,6 +11,7 @@ class Entity(TimerPreset, EntitySpawnerPreset, pg.sprite.Sprite):
         EntitySpawnerPreset.__init__(self)
         self.image = image
         self.rect = image.get_rect()
+        self.visible = True
         self.rect.x = pos[0]
         self.rect.y = pos[1]
         self.vel = (0, 0)

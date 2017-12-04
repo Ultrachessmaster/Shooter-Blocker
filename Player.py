@@ -1,6 +1,8 @@
 import pygame as pg
 from Engine import Constants
 from Engine.Entity import Entity
+from Engine.Timer import Timer
+
 
 class Player(Entity):
     def __init__(self, pos):
@@ -16,6 +18,7 @@ class Player(Entity):
         self.tag = "Player"
         self.get_collisions = True
         self.health = 5
+        self.invincible = False
 
     def update(self):
         pressed = pg.key.get_pressed()
@@ -56,6 +59,9 @@ class Player(Entity):
         self.xVel = xVel
         self.yVel = yVel
 
+        if self.health <= 0:
+            self.kill()
+
     def getVel(self):
         val = [self.xVel, self.yVel]
         return val
@@ -65,4 +71,21 @@ class Player(Entity):
         return val
 
     def collisions(self, colls):
-        return
+        if self.invincible: return
+
+        bullets = [b for b in colls if b.tag is "Bullet"]
+        for b in bullets:
+            b.kill()
+            self.health -= 1
+        if len(bullets) > 0:
+            self.timers.append(Timer(0.1, self.flip_invisibility))
+            def make_notinvincible(): self.invincible = False
+            self.timers.append(Timer(2, make_notinvincible))
+            self.invincible = True
+    def flip_invisibility(self):
+        self.visible = not self.visible
+        if self.invincible:
+            self.timers.append(Timer(0.1, self.flip_invisibility))
+        else:
+            self.visible = True
+

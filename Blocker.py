@@ -39,9 +39,5 @@ class Blocker(Entity):
             self.rect.y = playerRectY + offsetY
 
     def collisions(self, colls):
-        delete = []
-        for coll in colls:
-            if coll.tag == "Bullet":
-                delete.append(coll)
-        for coll in delete:
-            coll.kill()
+        bullets = [b for b in colls if b.tag is "Bullet"]
+        for b in bullets: b.kill()

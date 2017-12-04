@@ -10,7 +10,9 @@ class EntManager:
             ent.postupdate()
 
     def Draw(self, screen):
-        self._entities.draw(screen)
+        for ent in self._entities:
+            if ent.visible:
+                screen.blit(ent.image, ent.rect)
 
     def AddEntities(self, *entities):
         self._entities.add(entities)
