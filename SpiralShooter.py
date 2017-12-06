@@ -13,8 +13,8 @@ class SpiralShooter(Enemy):
         self.circlespeed = 0.01
         self.offsetspeed = 0.3
         self.dir = 0, 1
-        self.speed = 5
-        self.bulletrate = 0.1
+        self.speed = 3
+        self.bulletrate = 0.05
 
         timer = Timer(self.bulletrate, self.shoot_bullet)
         self.timers.append(timer)

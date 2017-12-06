@@ -1,7 +1,9 @@
 import pygame as pg
 import Player
 from Engine import Constants
+from Engine.EntManager import EntManager
 from Engine.Entity import Entity
+import math
 
 class Blocker(Entity):
     def __init__(self, pos, player):
@@ -9,35 +11,37 @@ class Blocker(Entity):
         self.rect.x, self.rect.y = 500,270
         self.player = player
         self.get_collisions = True
+        self.points = 0
+        self.maxpoints = 12
 
     def update(self):
-        playerRect = self.player.getRect()
-        playerRectX = playerRect[0]
-        playerRectY = playerRect[1]
-        pressed = pg.key.get_pressed()
-        self.vel = (self.player.getVel())
-        offsetX, offsetY = 30, 25
+        self.Move()
+        self._UpdateHealth()
 
-        if pressed[pg.K_RIGHT]:
-            self.set_angle(360)
-            self.rect.x = playerRectX + offsetX
-            self.rect.y = playerRectY
+    def Move(self):
+        player = EntManager.GetEntity("Player")
+        pos = pg.mouse.get_pos()
+        pos = (pos[0] - player.rect.x, pos[1] - player.rect.y)
+        length = math.sqrt(pos[0]**2 + pos[1]**2)
+        size = 32
+        normalvector = (pos[0] / length, pos[1] / length)
+        pos = (pos[0] * size / length, pos[1] * size / length)
+        angle = math.acos(normalvector[0])
+        if normalvector[1] < 0:
+            angle = -angle
+        self.set_angle(-angle)
+        self.rect.x = pos[0] + player.rect.x
+        self.rect.y = pos[1] + player.rect.y
 
-        if pressed[pg.K_LEFT]:
-            self.set_angle(180)
-            self.rect.x = playerRectX - offsetX
-            self.rect.y = playerRectY
-
-        if pressed[pg.K_UP]:
-            self.set_angle(90)
-            self.rect.x = playerRectX
-            self.rect.y = playerRectY - offsetY
-
-        if pressed[pg.K_DOWN]:
-            self.set_angle(270)
-            self.rect.x = playerRectX
-            self.rect.y = playerRectY + offsetY
+    def _UpdateHealth(self):
+        if self.points >= self.maxpoints:
+            self.points = 0
+            player = EntManager.GetEntity("Player")
+            player.health = min(player.health + 1, player.maxhealth)
 
     def collisions(self, colls):
         bullets = [b for b in colls if b.tag is "Bullet"]
-        for b in bullets: b.kill()
+        for b in bullets:
+            b.kill()
+            self.points += 1
+

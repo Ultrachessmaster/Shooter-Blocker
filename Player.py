@@ -1,13 +1,14 @@
 import pygame as pg
 from Engine import Constants
 from Engine.Entity import Entity
+from Engine.Text import Text
 from Engine.Timer import Timer
 
 
 class Player(Entity):
     def __init__(self, pos):
         Entity.__init__(self, Constants.PlayerImage(), pos)
-        self.speed = 6
+        self.speed = 4
         self.xLeft = 0
         self.xRight = 1000
         self.yDown = 600
@@ -18,9 +19,21 @@ class Player(Entity):
         self.tag = "Player"
         self.get_collisions = True
         self.health = 5
+        self.maxhealth = 15
         self.invincible = False
+        self.textlist.append(None)
 
     def update(self):
+        self._MoveAndCollide()
+        self.CreateText()
+        if self.health <= 0:
+            self.kill()
+
+    def CreateText(self):
+        text = Text("Health: {0}".format(self.health), (0, 0))
+        self.textlist[0] = text
+
+    def _MoveAndCollide(self):
         pressed = pg.key.get_pressed()
         # Movement and Collision
         xVel = 0
@@ -54,13 +67,9 @@ class Player(Entity):
                 else:
                     xVel -= self.speed
 
-        self.vel = (xVel,yVel)
-
+        self.vel = (xVel, yVel)
         self.xVel = xVel
         self.yVel = yVel
-
-        if self.health <= 0:
-            self.kill()
 
     def getVel(self):
         val = [self.xVel, self.yVel]

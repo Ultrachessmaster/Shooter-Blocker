@@ -20,7 +20,7 @@ class Game():
         blocker = Blocker.Blocker((0, 0), player)
         enemyspawner = EnemySpawner()
         self.entmanager = EntManager()
-        self.entmanager.AddEntities(player, blocker)
+        EntManager.AddEntities(player, blocker)
         self.entmanager.AddEntityHolder(enemyspawner)
         self.running = True
         self.timers = []

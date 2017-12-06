@@ -10,6 +10,7 @@ class Entity(TimerPreset, EntitySpawnerPreset, pg.sprite.Sprite):
         TimerPreset.__init__(self)
         EntitySpawnerPreset.__init__(self)
         self.image = image
+        self._orig_image = image
         self.rect = image.get_rect()
         self.visible = True
         self.rect.x = pos[0]
@@ -18,14 +19,13 @@ class Entity(TimerPreset, EntitySpawnerPreset, pg.sprite.Sprite):
         self.angle = 0
         self.tag = ""
         self.get_collisions = False
+        self.textlist = []
     def postupdate(self):
         #move entity on screen
         xvel, yvel = self.vel
         self.rect = self.rect.move([xvel, yvel])
     def set_angle(self, desiredangle):
-        if desiredangle < 0:
-            desiredangle = 360 + desiredangle
-        self.image = pg.transform.rotate(self.image, (desiredangle - self.angle))
-        self.angle = desiredangle
+        desiredangle = math.degrees(desiredangle)
+        self.image = pg.transform.rotate(self._orig_image, desiredangle)
     def collisions(self, colls):
         return
